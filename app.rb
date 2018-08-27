@@ -44,5 +44,7 @@ post '/new' do
   	return erb :new
   end
 
+  @db.execute 'INSERT INTO Posts (content, created_date) VALUES (?, datetime())', [@content]
+
   erb  "You typed #{@content}"
 end
