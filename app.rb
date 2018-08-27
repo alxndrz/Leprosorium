@@ -26,7 +26,7 @@ configure do
 		content TEXT
 	)'
 
-	 @db.execute 'CREATE TABLE IF NOT EXISTS Comments
+  @db.execute 'CREATE TABLE IF NOT EXISTS Comments
 	(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		created_date DATE,
@@ -51,13 +51,17 @@ end
 
 #Вывод информации о посте
 get '/details/:post_id' do
-	#Получаем переменную из url'а
+  #Получаем переменную из url'а
   post_id = params[:post_id]
   #Получаем список постов
   #(У нас будет только один пост)
   results = @db.execute 'SELECT * FROM Posts WHERE id = ?', [post_id]
   #Выбираем этот один пост в переменную @row
   @row = results[0]
+
+  #Выбираем комментарии для нашего поста
+  @comments = @db.execute 'SELECT * FROM Comments WHERE post_id = ?  ORDER BY id', [post_id]
+
   #Возвращаем представление details.erb
   erb :details
 end
@@ -81,12 +85,12 @@ end
 #Обработчик POST-запроса /details/...
 #Браузер отправляет данные на сервер а мы их принимаем
 post '/details/:post_id' do
-	#Получаем переменную из url'а
+  #Получаем переменную из url'а
   post_id = params[:post_id]
-   #Получаем переменную из POST-запроса
+  #Получаем переменную из POST-запроса
   content = params[:content]
-   #Сохранение данных в БД
-  @db.execute 'INSERT INTO Comments 
+  #Сохранение данных в БД
+  @db.execute 'INSERT INTO Comments
   (
   	content, 
   	created_date, 
