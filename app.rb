@@ -40,6 +40,10 @@ get '/posts' do
   erb :posts
 end
 
+get '/details' do
+	
+end
+
 #POST
 
 post '/new' do
