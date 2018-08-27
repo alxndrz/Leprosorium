@@ -69,3 +69,14 @@ post '/new' do
   #Перенаправление на главную страницу
   redirect to '/'
 end
+
+#Обработчик POST-запроса /details/...
+#Браузер отправляет данные на сервер а мы их принимаем
+post '/details/:post_id' do
+	#Получаем переменную из url'а
+  post_id = params[:post_id]
+   #Получаем переменную из POST-запроса
+  @content = params[:content]
+
+  erb "You typed comment #{@content} for post #{post_id}"
+end
